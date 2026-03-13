@@ -1,0 +1,9 @@
+.next
+node_modules
+.env
+.env.local
+uploads/cases/*
+uploads/minutes/*
+!uploads/cases/.gitkeep
+!uploads/minutes/.gitkeep
+*.log
