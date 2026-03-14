@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, ShieldCheck } from "lucide-react";
@@ -74,12 +73,6 @@ export default function LoginPage() {
             </div>
             {error ? <p className="text-sm text-rose-300">{error}</p> : null}
             <Button className="w-full" type="submit" disabled={submitting}>Sign in</Button>
-            <p className="text-center text-sm text-muted-foreground">
-              Need an account?{" "}
-              <Link href="/register" className="text-primary hover:underline">
-                Register
-              </Link>
-            </p>
           </form>
         </CardContent>
       </Card>
