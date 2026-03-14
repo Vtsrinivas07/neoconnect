@@ -34,9 +34,14 @@ export default function HomePage() {
             <div className="text-xs uppercase tracking-[0.28em] text-muted-foreground">full stack challenge build</div>
           </div>
         </div>
-        <Button asChild>
-          <Link href="/login">Launch app</Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button asChild variant="outline">
+            <Link href="/register">Register</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/login">Launch app</Link>
+          </Button>
+        </div>
       </header>
 
       <section className="grid flex-1 items-center gap-10 py-16 lg:grid-cols-[1.15fr_0.85fr]">
@@ -55,6 +60,9 @@ export default function HomePage() {
               <Link href="/login">
                 Sign in <ArrowRight className="size-4" />
               </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/register">Create account</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
               <Link href="/public-hub">View public hub</Link>
