@@ -9,11 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
+import { ROLES, type UserRole } from "@/lib/types";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState("staff@neoconnect.local");
+  const [role, setRole] = useState<UserRole>("staff");
   const [password, setPassword] = useState("Password123!");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -25,7 +28,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      await login(email, password);
+      await login(email, password, role);
       router.push("/dashboard");
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Unable to sign in.");
@@ -49,6 +52,16 @@ export default function LoginPage() {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <Select id="role" value={role} onChange={(event) => setRole(event.target.value as UserRole)}>
+                {ROLES.map((roleOption) => (
+                  <option key={roleOption} value={roleOption}>
+                    {roleOption.replace("_", " ")}
+                  </option>
+                ))}
+              </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>

@@ -7,8 +7,8 @@ import type { AuthUser, UserRole } from "@/lib/types";
 interface AuthContextValue {
   user: AuthUser | null;
   loading: boolean;
-  register: (payload: { name: string; email: string; password: string; role: UserRole; department?: string }) => Promise<void>;
-  login: (email: string, password: string) => Promise<void>;
+  register: (payload: { name: string; email: string; password: string; department?: string }) => Promise<void>;
+  login: (email: string, password: string, role: UserRole) => Promise<void>;
   logout: () => Promise<void>;
   refreshSession: () => Promise<void>;
 }
@@ -46,11 +46,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         setUser(data.user);
       },
-      login: async (email: string, password: string) => {
+      login: async (email: string, password: string, role: UserRole) => {
         const data = await apiRequest<{ user: AuthUser }>("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email, password, role })
         });
         setUser(data.user);
       },

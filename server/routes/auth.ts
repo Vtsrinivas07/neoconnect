@@ -7,14 +7,14 @@ import { ROLES, type AuthUser } from "../../lib/types";
 
 const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6)
+  password: z.string().min(6),
+  role: z.enum(ROLES)
 });
 
 const registerSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(6),
-  role: z.enum(ROLES).default("staff"),
   department: z.string().trim().optional()
 });
 
@@ -38,7 +38,7 @@ router.post("/register", async (request, response) => {
     name: parsed.data.name,
     email: parsed.data.email.toLowerCase(),
     passwordHash,
-    role: parsed.data.role,
+    role: "staff",
     department: parsed.data.department || undefined,
     active: true
   });
@@ -59,10 +59,10 @@ router.post("/login", async (request, response) => {
   const parsed = loginSchema.safeParse(request.body);
 
   if (!parsed.success) {
-    return response.status(400).json({ message: "Enter a valid email and password." });
+    return response.status(400).json({ message: "Enter valid email, password, and role." });
   }
 
-  const user = await UserModel.findOne({ email: parsed.data.email.toLowerCase(), active: true });
+  const user = await UserModel.findOne({ email: parsed.data.email.toLowerCase(), role: parsed.data.role, active: true });
 
   if (!user) {
     return response.status(401).json({ message: "Invalid credentials." });
