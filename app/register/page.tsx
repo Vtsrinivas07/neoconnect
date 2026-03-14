@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
-import { ROLES, type UserRole } from "@/lib/types";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -18,7 +16,6 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState("");
-  const [role, setRole] = useState<UserRole>("staff");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -42,7 +39,6 @@ export default function RegisterPage() {
         name,
         email,
         password,
-        role,
         department: department.trim() || undefined
       });
       router.push("/dashboard");
@@ -61,7 +57,7 @@ export default function RegisterPage() {
             <ShieldCheck className="size-5" />
           </div>
           <CardTitle className="mt-4">Create your NeoConnect account</CardTitle>
-          <CardDescription>Self-registration creates a staff account with immediate dashboard access.</CardDescription>
+          <CardDescription>Self-registration creates a staff account. Admin and elevated roles are managed by administrators.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={handleSubmit}>
@@ -72,16 +68,6 @@ export default function RegisterPage() {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
-              <Select id="role" value={role} onChange={(event) => setRole(event.target.value as UserRole)}>
-                {ROLES.map((roleOption) => (
-                  <option key={roleOption} value={roleOption}>
-                    {roleOption.replace("_", " ")}
-                  </option>
-                ))}
-              </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="department">Department (optional)</Label>
